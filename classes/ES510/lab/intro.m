@@ -15,7 +15,8 @@ if iex == 1
     
     % plot
     figure
-    plot(x,y)
+    plot(x,y,'LineWidth',3)
+    xlabel('x'), ylabel('y')
     
     % LAB ASSIGNMENT 1
     % Note that x, y has three variable (v0, t, theta)
