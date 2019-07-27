@@ -29,7 +29,9 @@ if iex == 2
     figure; hold on; grid on;
     for ii=1:length(c)
         f = y(x) + c(ii);
-        plot(x,f)
+        %if c(ii)==1 
+        %    plot(x,f,'LineWidth',2)
+        %end
     end
     xlabel('x');
     ylabel('y');
