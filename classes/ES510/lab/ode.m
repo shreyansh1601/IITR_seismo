@@ -1,6 +1,6 @@
 clc, clear all, close all
 
-iex = 5;
+iex = 4;
 %% Example 1: dy = cos(x)
 if iex == 1
     c = [-3:1:3]; % a subsetted range of C (in Reality this could be any real value)

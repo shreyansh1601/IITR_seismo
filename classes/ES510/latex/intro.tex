@@ -46,8 +46,10 @@
 
 \begin{document}
 
-\noindent Course: Numerical Methods and Computer Programming\\
-\noindent Code: ES 510\\
+%\noindent Course: Numerical Methods and Computer Programming\\
+%\noindent Code: ES 510\\
+\noindent Course: Numerical Methods in Geophysics\\
+\noindent Code: ES421\\
 \noindent Instructor: Vipul Silwal (\verb+vsilwalfes@iitr.ac.in+) \\ 
 \noindent Last Compiled: \today \\
 
@@ -182,7 +184,7 @@ These are the different types of programming languages with their merits and dem
 \begin{section}{Another way of categorizing}
 \verb+https://android.jlelse.eu/magic-lies-here-statically-typed-vs-dynamically-typed-languages-d151c7f95e2b+
 
-How and when the type of the data is defined. This is could be performedduring compile of code (a static check; example: C, C++) or at run-time (dynamic, example: Python, MATLAB). 
+This categorization is based on 'how' and 'when' the data type is defined. This is could be performed during compilation of code (a static check; example: C, C++) or at run-time (dynamic, example: Python, MATLAB). 
 
 If a language specification requires its typing rules strongly (i.e., more or less allowing only those automatic type conversions that do not lose information), one can refer to the process as Strongly typed, if not, as Weakly typed.
 
@@ -346,7 +348,7 @@ y &=& v_0 t \sin(\theta) - \frac{1}{2} g t^2
 
 Now consider time, t, goes from 0 to 100 seconds. Let's discretize this time into 1000 points (or  999 spaces).
 \verb+ t = linspace(0,100,1000)+ \\
-With initial velocity, $v_0 = 500$ m/s, and inital angle as $\theta = 60^o$.
+With initial velocity, $v_0 = 500$ m/s, and initial angle as $\theta = 60^o$.
 
 \begin{verbatim}
 %% EXAMPLE: Projectile
@@ -368,7 +370,7 @@ plot(x,y)
 \includegraphics[scale=.8]{projectile.png}
 
 \begin{subsection}{Convention}
-There are no hard an fast rules on how the variables should be named. But 'good programming practice' calls for some sort of naming conventions so that it makes programme more readable and shareable.
+There are no hard and fast rules on how the variables should be named. But 'good programming practice' calls for some sort of naming conventions so that it makes programme more readable and shareable.
 Typically, scaler variables are denoted as lowercase letters and matrices are represented by uppercase letters (however, no standard convention accepted globaly).
 
 \end{subsection}
@@ -430,7 +432,7 @@ Two most used function for reading the ASCII data files are:
 \item \verb+dlmread+
 
 This is mainly for reading numeric data (saved in a file) into a matrix.
-(Note: Recently \matlab has been suggesting \verb+readmatrix+ funtion instead).
+(Note: Recently \matlab has been suggesting \verb+readmatrix+ function instead).
 
 \begin{verbatim}
 ddir = '~/REPOSITORIES/IITR_seismo/classes/ES510/lab/data/';
@@ -458,7 +460,7 @@ data = textscan(fid,'%f');
 
 \begin{section}{Exercise}
 \begin{enumerate}
-\item Find roots of quadratic equation
+\item Find roots of a quadratic equation
 
 Roots are the zero-crossing points, and since this is a quadratic equation, it will have two roots.  Using equations \ref{quad} -- \ref{disp}, find the zero crossing points. [Hint: All you need to find the x values for which y is 0].
 
@@ -468,21 +470,42 @@ See Example 2 of the \matlab lab assignment. Find the x's where y is maximum and
 
 \item Rotation Exercise
 
-Rotation matrix is defined as, 
-${\bf R} = 
+Consider a vector $\bu = x \hat{i} + y \hat{j}$ which is being rotated by angle $\theta$ in counter-clockwise direction. After rotation, the new vector $\bv = x' \hat{i} + y' \hat{j}$is going to be: 
+\begin{eqnarray*}
+x' &=& x cos \theta - y sin \theta \\
+y' &=& x sin \theta + y cos \theta \\
+\end{eqnarray*}
+In matrix format this could be written as $\bv = \bu \bR$, where R is the rotation matrix:
+
+${\bf R} =
 \begin{bmatrix} 
 \cos \theta & -\sin \theta \\
 \sin \theta & \cos \theta
-\end{bmatrix}$, 
-where $\theta$ is 
+\end{bmatrix}$,
+
+Using this, rotate $2 \hat{i} + 3 \hat{j}$ counter-clockwise by $30^o$.
+
+\item Compute seismic moment (example of matrix dot product):
+
+Seismic moment $M_0$ (measure of size of earthquake) can be computed from its moment tensor matrix, $\bM$ (full description of earthquake faulting mechanism) by using the formula:
 
 \begin{equation}
-{\bf M} = 
+M_0 = \frac{1}{\sqrt{2}} \left( \sum_{ij} M_{ij}^2 \right ) ^{1/2}
 \end{equation}
 
-\item Compute seismic moment (example of matrix dot product)
+Compute $M_0$ for:
+${\bM} =
+\begin{bmatrix} 
+1.760 & 8.040 & -1.510\\
+8.040 & -1.820 & 0.475\\
+-1.510  & 0.475 & 0.058 
+\end{bmatrix} \times 10^{27}$. This is the moment tensor solution for April 25, 2015 Nepal earthquake.
 
-\item Read and Visualize 3D data
+Find seismic magnitude $\mw$ from $M_0$ using: $ \mw = \frac{2}{3} (\log_{10}(M_0) -16.1)$
+
+
+
+%\item Read and Visualize 3D data
 
 \end{enumerate}
 \end{section}
