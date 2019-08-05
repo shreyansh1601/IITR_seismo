@@ -173,7 +173,7 @@ For example for 5 interpolating nodes:
 p(x_3) = y_0V_0(x_3) + y_1V_1(x_3) + y_2V_2(x_3) + y_3V_3(x_3) + y_4V_4(x_3)
 \end{equation}
 
-Using the constrain from equation \refeq{lagrange_cases} this would condense down to $p(x_3) = y_3$.
+Using the constrain from \refeq{eq:lagrange_cases} this would condense down to $p(x_3) = y_3$.
 \linebreak
 
 {\bf Properties of $V_i(x)$}
@@ -275,11 +275,110 @@ y_2 \\
 y_n\\
 \end{bmatrix}
 \end{equation}
+%===========================================
+
+\section{Spline Interpolation}
+
+Consider there are $N+1$ points. In the previous section, we connected/interpolated these points using only one function (making use of lagrange polynomials). However, such an approach is not desirable when interpolating large datasets. More commonly used approach is by constructing multiple functions of smaller order (quadratic or cubic).
+
+\subsection{Quadratic spline}
+Let there $N+1$ points be: $(x_0,y_0),(x_1,y_1),\cdots,(x_N,y_N)$, and the functions connecting each point with the consequtive points be $f_1(x),f_2(x),\cdots,f_N(x)$.
+
+For the case of quadratic spline, $f(x)$ would be form $a x^2 + bx + c$. 
+\begin{eqnarray*}
+f_1(x) &=& a_1 x^2 + b_1x + c_1 \,\,\,\,\, x_0 \leq x \leq x_1 \\
+f_2(x) &=& a_2 x^2 + b_2x + c_2 \,\,\,\,\, x_1 \leq x \leq x_2 \\
+&\vdots& \\
+f_N(x) &=& a_N x^2 + b_Nx + c_N \,\,\,\,\, x_{N-1} \leq x \leq x_N
+\end{eqnarray*}
+
+Since there are $N+1$ points, there would be $N$ such functions, and $3N$ independent variables $((a_1,b_1,c_1), (a_2,b_2,c_2), \cdots (a_N,b_N,c_N))$in case of a quadratic spline interpolation.
+
+{\bf Constrain 1:} We first invoke the continuity constrain - consequtive function values at each node point must be equal.
+We will get $2N$ such equations:
+\begin{eqnarray*}
+y_0 &=& f_1(x_0) = a_1 x_0^2 + b_1x_0 + c_1 \\
+y_1 &=& f_1(x_1) = a_1 x_1^2 + b_1x_1 + c_1 \\
+y_1 &=& f_2(x_1) = a_2 x_1^2 + b_2x_1 + c_2 \\
+y_2 &=& f_2(x_2) = a_2 x_2^2 + b_2x_2 + c_2 \\
+y_2 &=& f_3(x_2) = a_3 x_2^2 + b_3x_2 + c_3 \\
+&\vdots& \\
+y_{N-1} &=& f_{N-1}(x_{N-1}) = a_{N-1} x_{N-1}^2 + b_{N-1}x_{N-1} + c_{N-1} \\
+y_{N-1} &=& f_{N}(x_{N-1}) = a_N x_{N-1}^2 + b_Nx_{N-1} + c_N \\
+y_N &=& f_N(x_N) = a_N x_N^2 + b_Nx_N + c_N
+\end{eqnarray*}
+
+{\bf Constrain 2:} Derivative are continuous at the node points. This way we will get another set of $N-1$ equation.
+\begin{eqnarray*}
+f'_1(x_1) = f'_2(x_1) &\,\,\,\,  & 2 a_1 x_1 + b_1 = 2 a_2 x_1 + b_2\\
+f'_2(x_2) = f'_3(x_2) &\,\,\,\,  & 2 a_2 x_2 + b_2 = 2 a_3 x_2 + b_3\\
+f'_3(x_3) = f'_4(x_3) &\,\,\,\,  & 2 a_3 x_3 + b_3 = 2 a_4 x_3 + b_4\\
+&\vdots&\\
+f'_{N-1}(x_{N-1}) = f'_N(x_{N-1}) &\,\,\,\,  & 2 a_{N-1} x_{N-1} + b_{N-1} = 2 a_N x_{N-1} + b_N
+\end{eqnarray*}
+
+{\bf Constrain 3:} We will assume that there is linear interpolation between first and second point. This way we can set $a_1=0$. This final equation will give us a set of $3N$ equations.
+
+In matrix form this can be represented as:
+
+\begin{equation}
+\begin{bmatrix}
+x_0^2 & x_0 & 1 & 0 & 0 & 0 & \cdots & 0 & 0 & 0 \\
+x_1^2 & x_1 & 1 & 0 & 0 & 0 & \cdots & 0 & 0 & 0 \\
+0 & 0 & 0 & x_1^2 & x_1 & 1 & \cdots & 0 & 0 & 0 \\
+0 & 0 & 0 & x_2^2 & x_2 & 1 & \cdots & 0 & 0 & 0 \\
+\vdots  & \cdots \\
+0 & 0 & 0 & 0 & 0  & 0 & \cdots & x_{N-1}^2 & x_{N-1} & 1 \\
+0 & 0 & 0 & 0 & 0  & 0 & 
+\cdots & x_N^2 & x_N & 1 \\
+\vdots  & \cdots\\
+2x_1 & 1 & 0 & -2x_1 & -1 & 0 & \cdots & 0 & 0 & 0 \\
+0 & 0 & 0 & 2x_2 & 1 & 0 & \cdots & 0 & 0 & 0 \\
+\vdots  & \cdots\\
+1 & 0 & 0 & 0 & 0 & 0 & \cdots & 0 & 0 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+a_1 \\
+b_1\\
+c_1\\
+a_2\\
+b_2\\
+c_2\\
+\vdots\\
+a_N\\
+b_N\\
+c_N\\
+\end{bmatrix} = 
+\begin{bmatrix}
+y_0 \\
+y_1\\
+y_1\\
+y_2\\
+y_2\\
+y_3\\
+\vdots\\
+y_{N-1}\\
+y_{N-1}\\
+y_N\\
+0\\
+0\\
+\vdots\\
+0\\
+0\\
+\end{bmatrix}
+\end{equation}
 
 %===========================================
 \section{Exercises}
 \begin{enumerate}
 \item Consider there are 10 randomly distributed Amazon storage location in a $100 \times 100$ km area. Create a Voronoi cell diagram using storage locations as nodes. Randomly select 5 location points and their nearest distribution store. [Hint: Use matlab's \verb+randn, voronoi+ functions].
+
+\item Derive the generalized formula for cubic spline interpolation for $N+1$ points.
+\begin{itemize}
+\item What is the number of independent variables?
+\item Write a matrix form of the final answer.
+\item What other constrain you had to use (other than those used for quadratic spline)?
+\end{itemize}
 \end{enumerate}
 
 \end{document}
