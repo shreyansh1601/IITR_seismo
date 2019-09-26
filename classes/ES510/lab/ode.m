@@ -1,9 +1,9 @@
 clc, clear all, close all
 
-iex = 4;
+iex = 5;
 %% Example 1: dy = cos(x)
 if iex == 1
-    c = [-3:1:3]; % a subsetted range of C (in Reality this could be any real value)
+    c = [-5:0.5:5]; % a subsetted range of C (in Reality this could be any real value)
     x = [-5:0.1:5]; % pick x range (function actually extends from -inf to + inf)
     
     dy = @(x) cos(x); 
@@ -30,7 +30,7 @@ if iex == 2
     for ii=1:length(c)
         f = y(x) + c(ii);
         %if c(ii)==1 
-        %    plot(x,f,'LineWidth',2)
+            plot(x,f,'LineWidth',2)
         %end
     end
     xlabel('x');
@@ -82,7 +82,7 @@ if iex == 4
     title('Direction field for $$y'' = 2 cos(x) cos(y)$$','interpreter','latex')
 end
 
-%% Example 5: Euler's method [ dy/dx = -y ]
+%% Example 5: Euler's method [ dy/dx = xy ]
 if iex == 5
     % initial condition
     x0 = 0;
@@ -112,6 +112,31 @@ if iex == 5
         yvec(ii+1) = yvec(ii) + (-yvec(ii))*deltax; % KEY
         plot(xvec(ii),yvec(ii),'o','MarkerFaceColor','b','MarkerEdgeColor','k')
     end
+    
+    %--------------------
+    % RK 4
+    
+    % Initailize x
+    deltax = 0.2; % smalled discretization (more accurate results)
+    xvec = [x0:deltax:x(end)];
+    yvec(1) = y0;
+    
+    % Inline functions for k1,k2,k3,k4
+    f = @(x,y) -y;
+    k1 = @(x,y) deltax * f(x, y);
+    k2 = @(x,y) deltax * f(x + deltax/2, y + k1(x,y)/2);
+    k3 = @(x,y) deltax * f(x + deltax/2, y + k2(x,y)/2);
+    k4 = @(x,y) deltax * f(x + deltax, y + k3(x,y));
+    
+    % loop over x
+    % compute y(ii+1)
+    for ii=1:length(xvec)
+        yvec(ii+1) = yvec(ii) + (1/6*(k1(xvec(ii),yvec(ii))...
+            + 2*k2(xvec(ii),yvec(ii)) + 2*k3(xvec(ii),yvec(ii)) + k4(xvec(ii),yvec(ii))));
+        plot(xvec(ii),yvec(ii),'o','MarkerFaceColor','c','MarkerEdgeColor','k')
+    end
+    %--------------------
+    
     
     xlabel('x'); ylabel('y');
     title('Euler solution to $\frac{dy}{dx} = -y$','interpreter','latex')

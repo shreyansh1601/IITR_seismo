@@ -1,5 +1,9 @@
-iex = 1; % Select example
+clc
+clear all
+close all
 
+
+iex = 1; % Select example
 %% EXAMPLE 1: Projectile
 if iex == 1
     t = linspace(0,100,1000);   % in seconds
@@ -9,7 +13,7 @@ if iex == 1
     % constant
     g = 9.8;                    % m/s2 (gravity constant)
     
-    % horizontal and vertical displacements
+    % horizontal and vertical displacements  % KEY
     x = v0 * t * cosd(theta);
     y = v0 * t * sind(theta) - 0.5 * g * t.^2;
     
@@ -27,7 +31,8 @@ end
 
 %% EXAMPLE 2: Read 1D waveform data
 if iex == 2
-    ddir = '~/REPOSITORIES/IITR_seismo/classes/ES510/lab/data/';
+    %ddir = '~/REPOSITORIES/IITR_seismo/classes/ES510/lab/data/';
+    ddir = '/Users/vipul/Desktop/IITR_seismo/classes/ES510/lab/data/';
     fname = 'XZ_GOAT_BHZ.dat';
     
     fid = fopen(strcat(ddir,fname));
