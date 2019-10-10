@@ -7,7 +7,7 @@ dx   = 0.5;          % grid point distance in x-direction
 c0   = 333.;         % wave speed in medium (m/s)
 isrc = 500;          % source location in grid in x-direction
 ir   = 730;          % receiver location in grid in x-direction
-nt   = 1000;         % maximum number of time steps
+nt   = 100;         % maximum number of time steps
 dt   = 0.0010;       % time step
 
 % CFL Stability Criterion
