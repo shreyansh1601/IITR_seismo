@@ -51,11 +51,11 @@ seis = zeros(nt,1);
 for n=1:1:nt
     for j=2:nx-1
         % compute double derivative of p w.r.t x (d2p/dx2)
-        d2px(j) = (p(j+1) - 2*p(j) + p(j-1))/(dx^2);
+        d2px(j) = ???;
     end
     
     % Time extrapolation
-    pnew = 2*p - pold + 2 * dt^2 * c.^2 .* d2px;
+    pnew = ???;
     
     % Add Source Term at isrc
     % Absolute pressure w.r.t analytical solution
