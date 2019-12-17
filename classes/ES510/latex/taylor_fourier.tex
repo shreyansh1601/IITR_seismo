@@ -92,7 +92,7 @@ Is an iterative method of finding the root of a function $f(x)$ where we start w
 \begin{eqnarray}
 x_1 &=& x_0 - \frac{f(x_0)}{f'x_1)} \\
 \vdots \\
-x_{n+1} &=&  x_{n-1}\frac{f(x_n)}{f'x_n)}
+x_{n+1} &=&  x_n-\frac{f(x_n)}{f'x_n)}
 \end{eqnarray}
 (provided the initial guess is close to the root). 
 
@@ -191,7 +191,7 @@ b_n &=& \frac{1}{L} \int_{-L}^L f(x) \sin(n\frac{\pi x}{L}) dx \label{fourier_ge
 %----------------------------------------------
 \begin{section}{Exercise}
 \begin{enumerate}
-\item Compute taylor series expansion for: $\sin x, \cos x, e^x$ upto third degree and compare with the actual values.
+\item Compute taylor series expansion for: $\sin x, \cos x$ upto third degree for $x = \pi/3$ and compare with the actual values.
 
 \item Compute the fourier series expansion for a box car function:
 \begin{equation}
@@ -201,7 +201,7 @@ f(x) = \begin{cases}
 \end{cases}
 \end{equation}
 
-\item Show how to get equation \ref{fourier_gen} after substituting $t = \frac{Lx}{\pi}$ in equation \ref{fourier}.
+\item Show how to get equation 15-\ref{fourier_gen} after substituting $t = \frac{Lx}{\pi}$ in equation 12-\ref{fourier}.
 
 \item Show that fourier series terms form an orthonormal basis.
 
